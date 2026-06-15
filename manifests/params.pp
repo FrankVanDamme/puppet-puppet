@@ -276,6 +276,7 @@ class puppet::params {
   }
 
   $server_ssl_dir = $ssldir
+  $server_ca_dir  = undef
   $server_version = undef
 
   $client_package = if $aio_package or ($facts['os']['name'] == 'Debian' and versioncmp($facts['os']['release']['major'], '12') >= 0) {
@@ -289,7 +290,7 @@ class puppet::params {
   # Puppet service name
   $service_name = 'puppet'
 
-  # Puppet onedshot systemd service and timer name
+  # Puppet oneshot systemd service and timer name
   $systemd_unit_name = 'puppet-run'
   # Mechanisms to manage and reload/restart the agent
   # If supported on the OS, reloading is prefered since it does not kill a currently active puppet run
