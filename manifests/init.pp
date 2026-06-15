@@ -96,6 +96,8 @@
 # $certificate_revocation::                 Whether certificate revocation checking should be
 #                                           enabled, and what level of checking should be performed
 #
+# $hostprivkey::                            Override the hostprivkey setting in puppet.conf
+#
 # $dns_alt_names::                          Use additional DNS names when generating a
 #                                           certificate.  Defaults to an empty Array.
 #
@@ -184,6 +186,8 @@
 # $environment::                            Default environment of the Puppet agent
 #
 # $agent_default_schedules::                A boolean to enable/disable the default schedules
+#
+# $agent_manage_environment::               A boolean to enable/disable managing the agent environment
 #
 # $agent_additional_settings::              A hash of additional agent settings.
 #                                           Example: {stringify_facts => true}
@@ -616,6 +620,7 @@ class puppet (
   Integer[0] $systemd_randomizeddelaysec = $puppet::params::systemd_randomizeddelaysec,
   Boolean $agent_noop = $puppet::params::agent_noop,
   Boolean $agent_default_schedules = $puppet::params::agent_default_schedules,
+  Boolean $agent_manage_environment = $puppet::params::agent_manage_environment,
   Boolean $show_diff = $puppet::params::show_diff,
   Optional[Stdlib::HTTPUrl] $module_repository = $puppet::params::module_repository,
   Optional[Integer[0]] $http_connect_timeout = $puppet::params::http_connect_timeout,
@@ -626,6 +631,7 @@ class puppet (
   Optional[Variant[Boolean, Enum['chain', 'leaf']]] $certificate_revocation = $puppet::params::certificate_revocation,
   Optional[String] $prerun_command = $puppet::params::prerun_command,
   Optional[String] $postrun_command = $puppet::params::postrun_command,
+  String[1] $hostprivkey = $puppet::params::hostprivkey,
   Array[String] $dns_alt_names = $puppet::params::dns_alt_names,
   Boolean $use_srv_records = $puppet::params::use_srv_records,
   Optional[String] $srv_domain = $puppet::params::srv_domain,
@@ -701,7 +707,7 @@ class puppet (
   Boolean $server_ssl_key_manage = $puppet::params::server_ssl_key_manage,
   Array[String] $server_ssl_protocols = $puppet::params::server_ssl_protocols,
   Optional[Stdlib::Absolutepath] $server_ssl_chain_filepath = $puppet::params::server_ssl_chain_filepath,
-  Optional[Variant[String, Array[String]]] $server_package = $puppet::params::server_package,
+  Variant[String[1], Array[String[1]]] $server_package = $puppet::params::server_package,
   Optional[String] $server_version = $puppet::params::server_version,
   String $server_certname = $puppet::params::server_certname,
   Integer[0] $server_request_timeout = $puppet::params::server_request_timeout,
